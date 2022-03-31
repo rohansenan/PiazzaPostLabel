@@ -4,9 +4,21 @@
 #include "unit_test_framework.h"
 
 
-TEST(test_stub) {
-    // Add your tests here
-    ASSERT_TRUE(true);
+TEST(test_size) {
+    BinarySearchTree<int> tree;
+    tree.insert(5);
+    tree.insert(10);
+    tree.insert(4);
+    ASSERT_EQUAL(tree.size(), 3);
+}
+
+TEST(test_height)
+{
+    BinarySearchTree<int> tree;
+    tree.insert(5);
+    tree.insert(10);
+    tree.insert(4);
+    ASSERT_EQUAL(tree.height(), 2);
 }
 
 TEST_MAIN()
