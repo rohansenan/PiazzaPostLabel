@@ -343,13 +343,13 @@ private:
   // NOTE:    This function must run in constant time.
   //          No iteration or recursion is allowed.
   static bool empty_impl(const Node *node) {
-    if (node)
+    if (!node)
     {
-      return false;
+      return true;
     }
     else
     {
-      return true;
+      return false;
     }
   }
 
@@ -388,17 +388,18 @@ private:
   //          tree rooted at 'node'.
   // NOTE:    This function must be tree recursive.
   static Node *copy_nodes_impl(Node *node) {
-    Node copy = new Node;
     if (empty_impl(node))
     {
       return NULL;
     }
     else
     {
+      Node * copy = new Node;
+      copy->datum = node->datum;
       copy->left = copy_nodes_impl(node->left);
       copy->right = copy_nodes_impl(node->right);
+      return copy;
     }
-    return copy;
   }
 
   // EFFECTS: Frees the memory for all nodes used in the tree rooted at 'node'.
@@ -429,11 +430,11 @@ private:
     {
       return NULL;
     }
-    else if ((!less<node->datum, query>) && (!less<query, node->datum>))
+    else if (!less(node->datum, query) && !less(query, node->datum))
     {
       return node;
     }
-    else if (!less<node->datum, query>)
+    else if (less(node->datum, query))
     {
       return find_impl(node->right, query, less);
     }
@@ -461,20 +462,19 @@ private:
   static Node * insert_impl(Node *node, const T &item, Compare less) {
     if (empty_impl(node))
     {
-      Node * newNode = new Node;
+      Node * newNode = new Node(item, NULL, NULL);
       node = newNode;
-      node->datum = item;
-      node->left = NULL;
-      node->right = NULL;
       return node;
     }
-    else if (less<T>(node->datum, item))
+    else if (less(node->datum, item))
     {
-      return insert_impl(node->right, item, less);
+      node->right = insert_impl(node->right, item, less);
+      return node;
     }
     else
     {
-      return insert_impl(node->left, item, less);
+      node->left = insert_impl(node->left, item, less);
+      return node;
     }
   }
 
