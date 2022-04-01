@@ -486,7 +486,14 @@ private:
   // HINT: You don't need to compare any elements! Think about the
   //       structure, and where the smallest element lives.
   static Node * min_element_impl(Node *node) {
-    assert(false);
+    if (empty_impl(node->left))
+    {
+      return node;
+    }
+    else
+    {
+      return min_element_impl(node->left);
+    }
   }
 
   // EFFECTS : Returns a pointer to the Node containing the maximum element
@@ -495,7 +502,14 @@ private:
   // HINT: You don't need to compare any elements! Think about the
   //       structure, and where the largest element lives.
   static Node * max_element_impl(Node *node) {
-    assert(false);
+    if (empty_impl(node->right))
+    {
+      return node;
+    }
+    else
+    {
+      return max_element_impl(node->right);
+    }
   }
 
 
