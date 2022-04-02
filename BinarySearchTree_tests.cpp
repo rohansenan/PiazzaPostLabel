@@ -63,7 +63,7 @@ TEST(max_element)
     tree.insert(10);
     tree.insert(4);
     tree.insert(1);
-    BinarySearchTree<int>::Iterator maxIter = tree.max_element()git ;
+    BinarySearchTree<int>::Iterator maxIter = tree.max_element();
     ASSERT_EQUAL(*maxIter, 10);
 }
 
