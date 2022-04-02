@@ -464,18 +464,16 @@ private:
     {
       Node * newNode = new Node(item, NULL, NULL);
       node = newNode;
-      return node;
     }
     else if (less(node->datum, item))
     {
       node->right = insert_impl(node->right, item, less);
-      return node;
     }
     else
     {
       node->left = insert_impl(node->left, item, less);
-      return node;
     }
+    return node;
   }
 
   // EFFECTS : Returns a pointer to the Node containing the minimum element
@@ -517,7 +515,22 @@ private:
   //          rooted at 'node'.
   // NOTE:    This function must be tree recursive.
   static bool check_sorting_invariant_impl(const Node *node, Compare less) {
-    assert(false);
+    if (empty_impl(node))
+    {
+      return true;
+    }
+    else if (!empty_impl(node->right) && less(min_element_impl(node->right)->datum, node->datum))
+    {
+      return false;
+    }
+    else if (!empty_impl(node->left) && less(node->datum, max_element_impl(node->left)->datum))
+    {
+      return false;
+    }
+    else
+    {
+      return check_sorting_invariant_impl(node->right, less) && check_sorting_invariant_impl(node->left, less);
+    }
   }
 
   // EFFECTS : Traverses the tree rooted at 'node' using an in-order traversal,
@@ -528,7 +541,12 @@ private:
   //       See https://en.wikipedia.org/wiki/Tree_traversal#In-order
   //       for the definition of a in-order traversal.
   static void traverse_inorder_impl(const Node *node, std::ostream &os) {
-    assert(false);
+    if (!empty_impl(node))
+    {
+      traverse_inorder_impl(node->left, os);
+      os << node->datum << " ";
+      traverse_inorder_impl(node->right, os);
+    }
   }
 
   // EFFECTS : Traverses the tree rooted at 'node' using a pre-order traversal,
@@ -539,7 +557,12 @@ private:
   //       See https://en.wikipedia.org/wiki/Tree_traversal#Pre-order
   //       for the definition of a pre-order traversal.
   static void traverse_preorder_impl(const Node *node, std::ostream &os) {
-    assert(false);
+    if (!empty_impl(node))
+    {
+      os << node->datum << " ";
+      traverse_preorder_impl(node->left, os);
+      traverse_preorder_impl(node->right, os);
+    }
   }
 
   // EFFECTS : Returns a pointer to the Node containing the smallest element
@@ -554,7 +577,23 @@ private:
   //       'less' parameter). Based on the result, you gain some information
   //       about where the element you're looking for could be.
   static Node * min_greater_than_impl(Node *node, const T &val, Compare less) {
-    assert(false);
+    if (empty_impl(node))
+    {
+      return NULL;
+    }
+    else if (less(node->datum, val) || val == node->datum)
+    {
+      return min_greater_than_impl(node->right, val, less);
+    }
+    else
+    {
+      Node * left = min_greater_than_impl(node->left, val, less);
+      if (empty_impl(left))
+      {
+        return node;
+      }
+      return left;
+    }
   }
 
 
