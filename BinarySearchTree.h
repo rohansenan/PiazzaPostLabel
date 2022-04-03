@@ -19,6 +19,7 @@
 #include <cassert>  //assert
 #include <iostream> //ostream
 #include <functional> //less
+#include <algorithm>
 
 // You may add aditional libraries here if needed. You may use any
 // part of the STL except for containers.
@@ -326,18 +327,6 @@ private:
   // functions, which are called from the regular member functions that
   // are included in the starter code for the BinarySearchTree class.
 
-  static int max(int left, int right)
-  {
-    if (left > right)
-    {
-      return left;
-    }
-    else
-    {
-      return right;
-    }
-  }
-
 
   // EFFECTS: Returns whether the tree rooted at 'node' is empty.
   // NOTE:    This function must run in constant time.
@@ -379,7 +368,7 @@ private:
     }
     else
     {
-      return 1 + max(height_impl(node->left), height_impl(node->right));
+      return 1 + std::max(height_impl(node->left), height_impl(node->right));
     }
   }
 
@@ -484,7 +473,11 @@ private:
   // HINT: You don't need to compare any elements! Think about the
   //       structure, and where the smallest element lives.
   static Node * min_element_impl(Node *node) {
-    if (empty_impl(node->left))
+    if (empty_impl(node))
+    {
+      return NULL;
+    }
+    else if (empty_impl(node->left))
     {
       return node;
     }
@@ -500,7 +493,11 @@ private:
   // HINT: You don't need to compare any elements! Think about the
   //       structure, and where the largest element lives.
   static Node * max_element_impl(Node *node) {
-    if (empty_impl(node->right))
+    if (empty_impl(node))
+    {
+      return NULL;
+    }
+    else if (empty_impl(node->right))
     {
       return node;
     }
@@ -581,7 +578,7 @@ private:
     {
       return NULL;
     }
-    else if (less(node->datum, val) || val == node->datum)
+    else if (less(node->datum, val) || (!(less(node->datum, val)) && !(less(val, node->datum))))
     {
       return min_greater_than_impl(node->right, val, less);
     }

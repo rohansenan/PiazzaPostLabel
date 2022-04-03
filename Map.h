@@ -60,9 +60,13 @@ public:
   // you should omit them. A user of the class must be able to create,
   // copy, assign, and destroy Maps.
 
+  Map() {}
 
   // EFFECTS : Returns whether this Map is empty.
-  bool empty() const;
+  bool empty() const
+  {
+    return tree.empty();
+  }
 
   // EFFECTS : Returns the number of elements in this Map.
   // NOTE : size_t is an integral type from the STL
@@ -113,6 +117,7 @@ public:
 
 private:
   // Add a BinarySearchTree private member HERE.
+  BinarySearchTree<pair> tree;
 };
 
 // You may implement member functions below using an "out-of-line" definition
