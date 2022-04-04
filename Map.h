@@ -33,6 +33,13 @@ private:
 
   // A custom comparator
   class PairComp {
+    private:
+      Key_compare less;
+    public:
+      bool operator()(const Pair_type &lhs, const Pair_type &rhs)
+      {
+        return lhs.first < rhs.first;
+      }
   };
 
 public:
@@ -60,7 +67,6 @@ public:
   // you should omit them. A user of the class must be able to create,
   // copy, assign, and destroy Maps.
 
-  Map() {}
 
   // EFFECTS : Returns whether this Map is empty.
   bool empty() const
@@ -70,7 +76,10 @@ public:
 
   // EFFECTS : Returns the number of elements in this Map.
   // NOTE : size_t is an integral type from the STL
-  size_t size() const;
+  size_t size() const
+  {
+    return tree.size(); 
+  }
 
   // EFFECTS : Searches this Map for an element with a key equivalent
   //           to k and returns an Iterator to the associated value if found,
@@ -79,7 +88,14 @@ public:
   // HINT: Since Map is implemented using a BinarySearchTree that stores
   //       (key, value) pairs, you'll need to construct a dummy value
   //       using "Value_type()".
-  Iterator find(const Key_type& k) const;
+  Iterator find(const Key_type& k) const
+  {
+    Value_type dummy;
+    Pair_type search;
+    search.first = k;
+    search.second = dummy;
+    return tree.find(search);
+  }
 
   // MODIFIES: this
   // EFFECTS : Returns a reference to the mapped value for the given
@@ -117,7 +133,7 @@ public:
 
 private:
   // Add a BinarySearchTree private member HERE.
-  BinarySearchTree<pair> tree;
+  BinarySearchTree<Pair_type, PairComp> tree;
 };
 
 // You may implement member functions below using an "out-of-line" definition
