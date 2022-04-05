@@ -38,7 +38,7 @@ private:
     public:
       bool operator()(const Pair_type &lhs, const Pair_type &rhs)
       {
-        return lhs.first < rhs.first;
+        return less(lhs.first, rhs.first);
       }
   };
 
@@ -90,10 +90,9 @@ public:
   //       using "Value_type()".
   Iterator find(const Key_type& k) const
   {
-    Value_type dummy;
     Pair_type search;
     search.first = k;
-    search.second = dummy;
+    search.second = Value_type();
     return tree.find(search);
   }
 
@@ -113,7 +112,21 @@ public:
   //           that element. This ensures the proper value-initialization is done.
   //
   // HINT: http://www.cplusplus.com/reference/map/map/operator[]/
-  Value_type& operator[](const Key_type& k);
+  Value_type& operator[](const Key_type& k)
+  {
+    Iterator it = find(k);
+    Iterator end = tree.end();
+    if(it==end)
+    {
+      Pair_type search;
+      search.first = k;
+      search.second = Value_type();
+      tree.insert(search);
+      it = find(k);
+    }
+    return it->second;
+
+  }
 
   // MODIFIES: this
   // EFFECTS : Inserts the given element into this Map if the given key
@@ -123,13 +136,30 @@ public:
   //           false. Otherwise, inserts the given element and returns
   //           an iterator to the newly inserted element, along with
   //           the value true.
-  std::pair<Iterator, bool> insert(const Pair_type &val);
+  std::pair<Iterator, bool> insert(const Pair_type &val)
+  {
+    bool empty = false;
+    Iterator it = find(val.first);
+    Iterator end = tree.end();
+    if(it==end)
+    {
+      tree.insert(val);
+      it = find(val.first);
+      empty = true;
+    }
+    std::pair<Iterator, bool> pear;
+    pear.first = it;
+    pear.second = empty;
+    return pear;
+  }
 
   // EFFECTS : Returns an iterator to the first key-value pair in this Map.
-  Iterator begin() const;
-
+  Iterator begin() const
+{
+  return tree.begin();
+}
   // EFFECTS : Returns an iterator to "past-the-end".
-  Iterator end() const;
+  Iterator end() const{return tree.end();}
 
 private:
   // Add a BinarySearchTree private member HERE.
