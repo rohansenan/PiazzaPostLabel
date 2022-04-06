@@ -40,6 +40,16 @@ TEST(test_height)
     ASSERT_EQUAL(tree.height(), 3);
 }
 
+TEST(test_height_one_side)
+{
+    BinarySearchTree<int> tree;
+    tree.insert(10);
+    tree.insert(9);
+    tree.insert(8);
+    tree.insert(7);
+    ASSERT_EQUAL(tree.height(), 4);
+}
+
 TEST(test_height_empty)
 {
     BinarySearchTree<int> tree;
@@ -149,6 +159,24 @@ TEST(check_sorting_invariant)
     *iter = 5;
     cout << tree.to_string() << endl;
     ASSERT_FALSE(tree.check_sorting_invariant());
+}
+
+TEST(check_sorting_invariant_empty)
+{
+    BinarySearchTree<int> tree;
+    ASSERT_TRUE(tree.check_sorting_invariant());
+}
+TEST(test_empty)
+{
+    BinarySearchTree<int> tree;
+    ASSERT_TRUE(tree.empty());
+}
+
+TEST(test_empty_false)
+{
+    BinarySearchTree<int> tree;
+    tree.insert(12);
+    ASSERT_FALSE(tree.empty());
 }
 
 TEST(check_sorting_invariant_true)
