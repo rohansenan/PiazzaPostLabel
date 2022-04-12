@@ -16,8 +16,15 @@ class Classifier
         map<string, double> labels;
         map<string, map<string, double> > words_per_label;
     public:
-        Classifier()
-        :
+        Classifier(string inputFile)
+        {
+            csvstream csvin(inputFile);
+            map<string, string> row;
+            while(csvin >> row)
+            {
+            }
+            
+        }
 };
 
 int main()
