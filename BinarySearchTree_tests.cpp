@@ -26,8 +26,16 @@ TEST(template_check)
     tree.insert("alpha");
     tree.insert("beta");
     tree.insert("charlie");
-    cout << *tree.max_element() << endl;
     ASSERT_EQUAL(*tree.max_element(), "charlie");
+}
+
+TEST(template_check_min_greater_than)
+{
+    BinarySearchTree<string> tree;
+    tree.insert("alpha");
+    tree.insert("beta");
+    tree.insert("charlie");
+    ASSERT_EQUAL(*tree.min_greater_than("blasphemy"), "charlie");
 }
 
 TEST(test_height)
