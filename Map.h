@@ -125,7 +125,6 @@ public:
       it = find(k);
     }
     return it->second;
-
   }
 
   // MODIFIES: this

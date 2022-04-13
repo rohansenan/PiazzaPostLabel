@@ -516,17 +516,20 @@ private:
     {
       return true;
     }
-    else if (!empty_impl(node->right) && less(min_element_impl(node->right)->datum, node->datum))
+    else if (!empty_impl(node->right) && less(min_element_impl(node->right)->datum, 
+    node->datum))
     {
       return false;
     }
-    else if (!empty_impl(node->left) && less(node->datum, max_element_impl(node->left)->datum))
+    else if (!empty_impl(node->left) && less(node->datum,
+     max_element_impl(node->left)->datum))
     {
       return false;
     }
     else
     {
-      return check_sorting_invariant_impl(node->right, less) && check_sorting_invariant_impl(node->left, less);
+      return check_sorting_invariant_impl(node->right, less) && 
+      check_sorting_invariant_impl(node->left, less);
     }
   }
 
@@ -578,7 +581,8 @@ private:
     {
       return NULL;
     }
-    else if (less(node->datum, val) || (!(less(node->datum, val)) && !(less(val, node->datum))))
+    else if (less(node->datum, val) || (!(less(node->datum, val)) 
+    && !(less(val, node->datum))))
     {
       return min_greater_than_impl(node->right, val, less);
     }
