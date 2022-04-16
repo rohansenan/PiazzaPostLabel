@@ -67,7 +67,6 @@ public:
   // you should omit them. A user of the class must be able to create,
   // copy, assign, and destroy Maps.
 
-
   // EFFECTS : Returns whether this Map is empty.
   bool empty() const
   {

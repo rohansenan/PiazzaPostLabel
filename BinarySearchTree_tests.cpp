@@ -165,7 +165,18 @@ TEST(check_sorting_invariant)
     tree.insert(1);
     tree.insert(3);
     *iter = 5;
-    cout << tree.to_string() << endl;
+    ASSERT_FALSE(tree.check_sorting_invariant());
+}
+
+TEST(check_sorting_invariant_right_small)
+{
+    BinarySearchTree<int> tree;
+    tree.insert(10);
+    BinarySearchTree<int>::Iterator iter = tree.begin();
+    tree.insert(2);
+    tree.insert(15);
+    ++iter;
+    *iter = 7;
     ASSERT_FALSE(tree.check_sorting_invariant());
 }
 
